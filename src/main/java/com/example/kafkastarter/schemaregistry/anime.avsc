@@ -1,0 +1,9 @@
+{
+  "type" : "record",
+  "name" : "Anime",
+  "namespace" : "com.example.models.avro",
+  "fields" : [
+    {"name" : "title", "type" : "string", "doc" : "Title of the Anime"},
+    {"name" : "releaseYear", "type" : "long", "doc" : "Release Year of Anime"}
+  ]
+}
