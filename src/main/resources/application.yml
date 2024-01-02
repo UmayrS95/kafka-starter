@@ -1,34 +1,58 @@
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+#    IBM cloud setup
+#    bootstrap-servers: <BOOTSTRAP SERVERS HERE>
+#    jaas:
+#      enabled: true
+#      login-module: org.apache.kafka.common.security.plain.PlainLoginModule
+#      options:
+#        username: token
+#        password: <PASSWORD HERE>
+#    properties:
+#      security:
+#        protocol: SASL_SSL
+#      sasl:
+#        mechanism: PLAIN
+
+#    Confluent Cloud setup
+    bootstrap-servers: <BOOTSTRAP SERVERS HERE>
     jaas:
       enabled: true
       login-module: org.apache.kafka.common.security.plain.PlainLoginModule
       options:
-        username: token
-        password: password
+        username: <USERNAME HERE>
+        password: <PASSWORD HERE>
     properties:
       security:
         protocol: SASL_SSL
       sasl:
         mechanism: PLAIN
+      schema.registry.url: <SCHEMA REGISTRY URL HERE>
+      basic.auth.credentials.source: USER_INFO
+      schema.registry.basic.auth.user.info: <USERNAME:PASSWORD HERE>
+      json.fail.invalid.schema: true
     consumer:
       group-id: group-id
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: io.confluent.kafka.serializers.json.KafkaJsonSchemaDeserializer
       properties:
-#        schema:
-#          registry:
-#            url: http://0.0.0.0:8081
+        schema:
+          registry:
+            url: <SCHEMA REGISTRY URL HERE>
+        basic.auth.credentials.source: USER_INFO
+        schema.registry.basic.auth.user.info: <USERNAME:PASSWORD HERE>
 #        specific:
 #          avro:
 #            reader: true
         spring.json.trusted.packages: "*"
+        spring.json.value.type: com.example.kafkastarter.model.Anime
     producer:
-#      properties:
-#        schema:
-#          registry:
-#            url: http://0.0.0.0:8081
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: io.confluent.kafka.serializers.json.KafkaJsonSchemaSerializer
+      properties:
+        schema:
+          registry:
+            url: <SCHEMA REGISTRY URL HERE>
+        basic.auth.credentials.source: USER_INFO
+        schema.registry.basic.auth.user.info: <USERNAME:PASSWORD HERE>

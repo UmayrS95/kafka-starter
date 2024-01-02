@@ -1,6 +1,6 @@
 package com.example.kafkastarter.controller;
 
-import com.example.kafkastarter.model.Anime;
+import com.example.kafkastarter.model.AnimeRecord;
 import com.example.kafkastarter.producer.KafkaProducer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class KafkaProducerController {
   private KafkaProducer kafkaProducer;
 
   @PostMapping("/produceMessage")
-  public ResponseEntity<String> produceMessage(@RequestBody Anime anime) {
+  public ResponseEntity<String> produceMessage(@RequestBody AnimeRecord anime) {
     log.info("Received message to produceMessage endpoint: {}", kv("message", anime.getTitle()));
     kafkaProducer.produceMessage(anime);
     return ResponseEntity.ok("Message successfully produced to topic");

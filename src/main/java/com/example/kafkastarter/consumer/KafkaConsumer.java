@@ -13,12 +13,13 @@ import static net.logstash.logback.argument.StructuredArguments.kv;
 @Slf4j
 public class KafkaConsumer {
 
-  @KafkaListener(topics = AppConstants.TOPIC_NAME, groupId = AppConstants.GROUP_ID)
+  @KafkaListener(topics = AppConstants.TOPIC_NAME, groupId = AppConstants.GROUP_ID, properties = {"spring.json.value.type=com.example.kafkastarter.model.Anime"})
   private void consumer(ConsumerRecord<String, Anime> payload) {
     log.info("key: {}", kv("key", payload.key()));
     log.info("headers: {}", kv("headers", payload.headers()));
     log.info("partition: {}", kv("partition", payload.partition()));
     log.info("anime: {}", kv("anime", payload.value().getTitle()));
-    log.info("release year: {}", kv("released", payload.value().getReleaseYear()));
+    log.info("releaseYear: {}", kv("released", payload.value().getReleaseYear()));
+    log.info("episodes: {}", kv("number of episodes", payload.value().getNumberOfEpisodes()));
   }
 }
